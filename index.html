@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Liuyang Tan · Composer</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #f7f7fa;
+            --card: #ffffff;
+            --text: #1c1c22;
+            --muted: #6b6b80;
+            --accent: #5b7fff;
+            --border: #e8e8ef;
+            --radius: 20px;
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-heading: 'Space Grotesk', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            padding-top: 72px;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        a:hover {
+            color: #3f5fcf;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            background: rgba(247, 247, 250, 0.78);
+            backdrop-filter: blur(14px) saturate(1.2);
+            border-bottom: 1px solid rgba(232, 232, 239, 0.5);
+            padding: 14px 0;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 1.3rem;
+            letter-spacing: -0.5px;
+            color: var(--text);
+        }
+        .logo:hover {
+            color: var(--text);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1.5px;
+            background: var(--accent);
+            transition: 0.25s;
+        }
+        .nav-links a:hover {
+            color: var(--text);
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 4px;
+        }
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--text);
+            border-radius: 4px;
+            transition: 0.25s;
+        }
+
+        .section {
+            padding: 64px 0 56px;
+            border-bottom: 1px solid var(--border);
+        }
+        .section:last-of-type {
+            border-bottom: none;
+        }
+
+        /* ===== 简介 ===== */
+        #about .container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 56px;
+            align-items: center;
+        }
+
+        .photo {
+            width: 100%;
+            max-width: 320px;
+            aspect-ratio: 1 / 1;
+            border-radius: var(--radius);
+            overflow: hidden;
+            background: var(--card);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.04);
+        }
+        .photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .about-content h1 {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            margin-bottom: 2px;
+        }
+        .about-content .subhead {
+            font-size: 1rem;
+            color: var(--muted);
+            margin-bottom: 18px;
+            font-weight: 400;
+        }
+
+        .about-content p {
+            font-size: 0.95rem;
+            color: var(--text);
+            line-height: 1.7;
+            margin-bottom: 14px;
+        }
+        .about-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .about-content .divider {
+            width: 40px;
+            height: 2px;
+            background: var(--accent);
+            margin: 14px 0 18px;
+            border-radius: 4px;
+        }
+
+        /* ===== 作品 ===== */
+        .section-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--muted);
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .category-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--accent);
+            font-weight: 600;
+            margin: 28px 0 12px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--border);
+        }
+        .category-label:first-of-type {
+            margin-top: 0;
+        }
+
+        .work-item {
+            display: grid;
+            grid-template-columns: 64px 1fr auto;
+            gap: 16px 24px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+            align-items: baseline;
+        }
+        .work-item:last-child {
+            border-bottom: none;
+        }
+
+        .work-year {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--accent);
+            letter-spacing: 0.3px;
+        }
+
+        .work-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+        .work-title {
+            font-family: var(--font-heading);
+            font-weight: 500;
+            font-size: 1rem;
+            color: var(--text);
+        }
+        .work-title .en {
+            font-weight: 400;
+            color: var(--muted);
+            font-size: 0.9rem;
+            font-family: var(--font);
+        }
+        .work-meta {
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+        .work-credit {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .work-link-btn a {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--accent);
+            white-space: nowrap;
+        }
+        .work-link-btn a i {
+            margin-left: 4px;
+            transition: 0.2s;
+        }
+        .work-link-btn a:hover i {
+            transform: translateX(3px);
+        }
+
+        /* ===== 联系 ===== */
+        .contact-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: flex-start;
+        }
+        .contact-grid a {
+            font-size: 1rem;
+            color: var(--text);
+            font-weight: 450;
+            padding: 6px 0;
+            border-bottom: 1px solid transparent;
+            transition: 0.2s;
+        }
+        .contact-grid a:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+        .contact-grid i {
+            margin-right: 10px;
+            color: var(--accent);
+            width: 20px;
+            text-align: center;
+        }
+
+        footer {
+            padding: 28px 0 40px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 62px;
+                left: 0;
+                width: 100%;
+                background: var(--bg);
+                padding: 24px 30px;
+                gap: 16px;
+                border-bottom: 1px solid var(--border);
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .hamburger {
+                display: flex;
+            }
+
+            #about .container {
+                grid-template-columns: 1fr;
+                gap: 32px;
+                text-align: center;
+            }
+            .photo {
+                max-width: 240px;
+                margin: 0 auto;
+            }
+            .about-content .divider {
+                margin: 14px auto 18px;
+            }
+
+            .work-item {
+                grid-template-columns: 1fr;
+                gap: 2px;
+                padding: 16px 0;
+            }
+            .work-year {
+                font-size: 0.75rem;
+            }
+            .work-link-btn {
+                margin-top: 4px;
+            }
+
+            .section {
+                padding: 48px 0 40px;
+            }
+            .contact-grid {
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .about-content h1 {
+                font-size: 1.8rem;
+            }
+            .work-title {
+                font-size: 0.95rem;
+            }
+            .work-title .en {
+                font-size: 0.85rem;
+                display: block;
+                margin-top: 2px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== 导航 ===== -->
+    <header class="navbar">
+        <div class="container">
+            <a href="#about" class="logo">谭浏洋</a>
+            <nav>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#about">Home</a></li>
+                    <li><a href="#works">Works</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <button class="hamburger" id="hamburger" aria-label="Menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ===== 简介 ===== -->
+    <section class="section" id="about">
+        <div class="container">
+            <div class="photo">
+                <img src="Pic1.jpg" alt="谭浏洋" />
+            </div>
+            <div class="about-content">
+                <h1>谭浏洋<br />Liuyang Tan</h1>
+                <div class="subhead">Composer · Electronic Music</div>
+                <div class="divider"></div>
+
+                <p>
+                    Liuyang Tan is a composer and Ph.D. student in music composition at UC Santa Barbara, studying with Professor João Pedro Oliveira. He holds an MFA in electronic music composition from Sichuan Conservatory of Music under Professor Lu Minjie, and a BA in recording arts from the same institution.<br /><br />
+                    His research focuses on intermedia approaches to electronic music, exploring multichannel spatial narratives and the integration of sound with visual media. His works have been presented at the International Computer Music Conference (ICMC), New York City Electroacoustic Music Festival (NYCEMF), Society for Electro-Acoustic Music in the United States (SEAMUS), ArteSicenza International Electronic Music Festival, Hangzhou International Electronic Music Festival (MUSICACOUSTICA-HANGZHOU), China Computational Art Conference (CCF), Summit on Music Intelligence Electronic Music Marathon (SOMI), International Electronic Music Competition Shanghai (IEMC), Macao International Digital Intelligence Music Competition (MDIMC), Sound and Music Computing Conference (SMC), MA/IN Electronic Music Festival, and the Earth Day Art Model Global Marathon. He has received the China National Scholarship, Sichuan Conservatory Outstanding Graduate, and multiple academic scholarships.
+                </p>
+
+                <p style="margin-top: 12px; color: var(--muted); font-size: 0.92rem;">
+                    谭浏洋，作曲家，现为加州大学圣塔芭芭拉分校（UC Santa Barbara）音乐作曲专业博士研究生，师从João Pedro Oliveira教授。硕士毕业于四川音乐学院电子音乐作曲专业，师从陆敏捷教授；本科毕业于四川音乐学院录音艺术专业。<br /><br />
+                    他的研究聚焦于电子音乐的跨媒介创作，探索多声道声音空间的叙事潜力及声音与视觉媒介的融合。作品曾多次入选国内外重要音乐节与学术会议，包括国际计算机音乐大会（ICMC）、纽约城市电子音乐节（NYCEMF）、美国电子音乐协会（SEAMUS）、ArteSicenza国际电子音乐节、杭州国际电子音乐节（MUSICACOUSTICA-HANGZHOU）、中国计算机艺术大会（CCF）、世界音乐人工智能大会电子音乐马拉松（SOMI）、上海国际电子音乐大赛（IEMC）、澳门数智融媒体音乐创作大赛（MDIMC）、国际声音与计算大会（SMC）、MA/IN电子音乐节、“地球日”全球异地实时音乐节等。曾获国家奖学金、四川音乐学院优秀毕业生、学业一等奖学金等荣誉。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 作品 ===== -->
+    <section class="section" id="works">
+        <div class="container">
+            <div class="section-label">Works</div>
+
+            <!-- ===== 幻听类 ===== -->
+            <div class="category-label">Acousmatic / Fixed Media</div>
+
+            <div class="work-item">
+                <div class="work-year">2021</div>
+                <div class="work-info">
+                    <div class="work-title">破土 <span class="en">The Seed</span></div>
+                    <div class="work-meta">幻听类电子音乐 · 展演：ICMC 2022（爱尔兰）、“地球日”全球马拉松异地实时音乐节</div>
+                </div>
+                <div></div>
+            </div>
+
+            <div class="work-item">
+                <div class="work-year">2023</div>
+                <div class="work-info">
+                    <div class="work-title">仲夏之梦 <span class="en">A Midsummer Night's Dream</span></div>
+                    <div class="work-meta">幻听类电子音乐 · 展演：ICMC 2023（中国）、ArteSicenza 2024（意大利）· 收录于专辑《律动的光影》（ISBN: 978-7-88115-337-7）</div>
+                </div>
+                <div></div>
+            </div>
+
+            <div class="work-item">
+                <div class="work-year">2023</div>
+                <div class="work-info">
+                    <div class="work-title">寻秋 <span class="en">Where The Leaves Fall</span></div>
+                    <div class="work-meta">幻听类电子音乐 · 展演：NYCEMF 2024（纽约）、ICMC 2024（首尔）</div>
+                </div>
+                <div class="work-link-btn"><a href="https://soundcloud.com/tan-165517938/where-the-leaves-fall" target="_blank">Listen <i class="fas fa-arrow-right"></i></a></div>
+            </div>
+
+            <div class="work-item">
+                <div class="work-year">2024</div>
+                <div class="work-info">
+                    <div class="work-title">流光琥珀 <span class="en">Glowing Amber</span></div>
+                    <div class="work-meta">幻听类电子音乐 · 获奖：NCDA省级三等奖（2025）</div>
+                </div>
+                <div></div>
+            </div>
+
+            <!-- ===== 混合类 ===== -->
+            <div class="category-label">Mixed / Instrumental + Electronics</div>
+
+            <div class="work-item">
+                <div class="work-year">2022</div>
+                <div class="work-info">
+                    <div class="work-title">声之形影 <span class="en">sihhouette, for flute and live electronics</span></div>
+                    <div class="work-meta">为长笛与实时电子音乐而作 · 获奖：IEMC 2023原声电子音乐组优秀奖 · 展演：ICMC 2023（中国）</div>
+                </div>
+                <div class="work-link-btn"><a href="https://soundcloud.com/tan-165517938/sihhouette" target="_blank">Listen <i class="fas fa-arrow-right"></i></a></div>
+            </div>
+
+            <div class="work-item">
+                <div class="work-year">2024</div>
+                <div class="work-info">
+                    <div class="work-title">幻痕 <span class="en">Faint Traces, for Violin, Clarinet and Electronics</span></div>
+                    <div class="work-meta">为小提琴、单簧管与电子音乐而作 · 展演：ICMC 2025（波士顿）· 获奖：IEMC 2025优秀奖、MDIMC 2025三等奖</div>
+                </div>
+                <div class="work-link-btn"><a href="https://soundcloud.com/tan-165517938/faint-traces" target="_blank">Listen <i class="fas fa-arrow-right"></i></a></div>
+            </div>
+
+            <!-- ===== 多媒体类 ===== -->
+            <div class="category-label">Multimedia / AudioVisual</div>
+
+            <div class="work-item">
+                <div class="work-year">2024</div>
+                <div class="work-info">
+                    <div class="work-title">涟歌 <span class="en">Song for Ripples, for Accordion, Electronics and Video</span></div>
+                    <div class="work-meta">为手风琴、电子音乐与视觉影像而作 · 展演：杭州国际电子音乐节 2024、ICMC 2025（波士顿）、NYCEMF 2025（纽约）、CCF中国计算艺术大会 2025 · 获奖：杭州国际电子音乐作曲比赛B类优秀奖（2024）</div>
+                </div>
+                <div class="work-link-btn"><a href="https://youtu.be/Xk2EjoWP4To" target="_blank">Watch <i class="fas fa-arrow-right"></i></a></div>
+            </div>
+
+            <!-- 雪轴（2025）在前 -->
+            <div class="work-item">
+                <div class="work-year">2025</div>
+                <div class="work-info">
+                    <div class="work-title">雪轴 <span class="en">Axis of Frost · AudioVisual</span></div>
+                    <div class="work-meta">为视觉影像而作 · 展演：ICMC 2026（德国汉堡）、SOMI 2026、MA/IN 2026 · 获奖：IEMC 2025三等奖、MDIMC 2025一等奖</div>
+                </div>
+                <div class="work-link-btn"><a href="https://youtu.be/0f6N0lKX_JM" target="_blank">Watch <i class="fas fa-arrow-right"></i></a></div>
+            </div>
+
+            <!-- 浮生流变（2026）在后 -->
+            <div class="work-item">
+                <div class="work-year">2026</div>
+                <div class="work-info">
+                    <div class="work-title">浮生流变 <span class="en">Aethereal Movements, for Cello, Electronics and Video</span></div>
+                    <div class="work-meta">为大提琴、电子音乐与视觉影像而作 · 展演：ICMC 2026（德国汉堡）、SMC 2026</div>
+                </div>
+                <div class="work-link-btn"><a href="https://youtu.be/XlcJReGJBes" target="_blank">Watch <i class="fas fa-arrow-right"></i></a></div>
+            </div>
+
+            <!-- ===== 合作类 ===== -->
+            <div class="category-label">Collaborative Works</div>
+
+            <div class="work-item">
+                <div class="work-year">2025</div>
+                <div class="work-info">
+                    <div class="work-title">Finding in the light <span class="en">for two Clarinets and Electronics</span></div>
+                    <div class="work-meta">为两支单簧管与电子音乐而作 · 合作：梁一飞 · 分工：电子音乐部分</div>
+                </div>
+                <div></div>
+            </div>
+
+            <div class="work-item">
+                <div class="work-year">2025</div>
+                <div class="work-info">
+                    <div class="work-title">空 <span class="en">Kong</span></div>
+                    <div class="work-meta">混合类电子音乐 · 合作：赵雪丹妮（声音） · 分工：视觉部分</div>
+                </div>
+                <div></div>
+            </div>
+
+            <div class="work-item">
+                <div class="work-year">2026</div>
+                <div class="work-info">
+                    <div class="work-title">蜀腔行 <span class="en">Wandering in the Sichuan Tune</span></div>
+                    <div class="work-meta">为川剧高腔、视觉影像与电子音乐而作 · 合作：丁乾城 · 分工：视觉部分</div>
+                </div>
+                <div></div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== 联系 ===== -->
+    <section class="section" id="contact">
+        <div class="container">
+            <div class="section-label">Contact</div>
+            <div class="contact-grid">
+                <a href="mailto:liuyangtan@ucsb.edu"><i class="fas fa-envelope"></i> liuyangtan@ucsb.edu</a>
+                <a href="mailto:tanliuyang123@foxmail.com"><i class="fas fa-envelope"></i> tanliuyang123@foxmail.com</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 谭浏洋 &middot; Liuyang Tan</p>
+        </div>
+    </footer>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        hamburger.addEventListener('click', function() {
+            navLinks.classList.toggle('open');
+            this.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('open');
+                hamburger.classList.remove('active');
+            });
+        });
+    </script>
+
+</body>
+</html>
